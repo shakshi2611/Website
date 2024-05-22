@@ -1,70 +1,86 @@
-import React from 'react';
-import { MdOutlineCancel } from 'react-icons/md';
-import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
+import * as React from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
-import { useStateContext } from '../contexts/ContextProvider';
-import { Data } from '../Data/Data';
-import { Button } from '.';
+const TAX_RATE = 0.07;
 
-const Cart = () => {
-  const { currentColor } = useStateContext();
+function ccyFormat(num) {
+  return `${num.toFixed(2)}`;
+}
 
+function priceRow(qty, unit) {
+  return qty * unit;
+}
+
+function createRow(desc, qty, unit) {
+  const price = priceRow(qty, unit);
+  return { desc, qty, unit, price };
+}
+
+function subtotal(items) {
+  return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
+}
+
+const rows = [
+  createRow('Paperclips (Box)', 100, 1.15),
+  createRow('Paper (Case)', 10, 45.99),
+  createRow('Waste Basket', 2, 17.99),
+];
+
+const invoiceSubtotal = subtotal(rows);
+const invoiceTaxes = TAX_RATE * invoiceSubtotal;
+const invoiceTotal = invoiceTaxes + invoiceSubtotal;
+
+export default function SpanningTable() {
   return (
-    <div className="bg-half-transparent w-full fixed nav-item top-0 right-0 ">
-      <div className="float-right h-screen  duration-1000 ease-in-out dark:text-gray-200 transition-all dark:bg-[#484B52] bg-white md:w-400 p-8">
-        <div className="flex justify-between items-center">
-          <p className="font-semibold text-lg">Shopping Cart</p>
-          <Button
-            icon={<MdOutlineCancel />}
-            color="rgb(153, 171, 180)"
-            bgHoverColor="light-gray"
-            size="2xl"
-            borderRadius="50%"
-          />
-        </div>
-        {Data?.map((item, index) => (
-          <div key={index}>
-            <div>
-              <div className="flex items-center   leading-8 gap-5 border-b-1 border-color dark:border-gray-600 p-4">
-                <img className="rounded-lg h-80 w-24" src={item.image} alt="" />
-                <div>
-                  <p className="font-semibold ">{item.name}</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">{item.category}</p>
-                  <div className="flex gap-4 mt-2 items-center">
-                    <p className="font-semibold text-lg">{item.price}</p>
-                    <div className="flex items-center border-1 border-r-0 border-color rounded">
-                      <p className="p-2 border-r-1 dark:border-gray-600 border-color text-red-600 "><AiOutlineMinus /></p>
-                      <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600">0</p>
-                      <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600"><AiOutlinePlus /></p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-        <div className="mt-3 mb-3">
-          <div className="flex justify-between items-center">
-            <p className="text-gray-500 dark:text-gray-200">Sub Total</p>
-            <p className="font-semibold">$890</p>
-          </div>
-          <div className="flex justify-between items-center mt-3">
-            <p className="text-gray-500 dark:text-gray-200">Total</p>
-            <p className="font-semibold">$890</p>
-          </div>
-        </div>
-        <div className="mt-5">
-          <Button
-            color="white"
-            bgColor={currentColor}
-            text="Place Order"
-            borderRadius="10px"
-            width="full"
-          />
-        </div>
-      </div>
-    </div>
+    <TableContainer component={Paper} className="shadow-lg rounded-lg overflow-hidden">
+      <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+        <TableHead className="bg-gray-800 text-white">
+          <TableRow>
+            <TableCell align="center" colSpan={3} className="font-bold text-2xl">
+              Details
+            </TableCell>
+            <TableCell align="right" className="font-bold text-2xl">
+              Price
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-medium">Desc</TableCell>
+            <TableCell align="right" className="font-medium">Qty.</TableCell>
+            <TableCell align="right" className="font-medium">Unit</TableCell>
+            <TableCell align="right" className="font-medium">Sum</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.desc} className="hover:bg-gray-100">
+              <TableCell>{row.desc}</TableCell>
+              <TableCell align="right">{row.qty}</TableCell>
+              <TableCell align="right">{row.unit}</TableCell>
+              <TableCell align="right">{ccyFormat(row.price)}</TableCell>
+            </TableRow>
+          ))}
+          <TableRow>
+            <TableCell rowSpan={3} />
+            <TableCell colSpan={2} className="font-semibold">Subtotal</TableCell>
+            <TableCell align="right" className="font-semibold">{ccyFormat(invoiceSubtotal)}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className="font-semibold">Tax</TableCell>
+            <TableCell align="right" className="font-semibold">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
+            <TableCell align="right" className="font-semibold">{ccyFormat(invoiceTaxes)}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={2} className="font-semibold">Total</TableCell>
+            <TableCell align="right" className="font-semibold">{ccyFormat(invoiceTotal)}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
-};
-
-export default Cart;
+}

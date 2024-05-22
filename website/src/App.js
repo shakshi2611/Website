@@ -11,7 +11,7 @@ import Order from "./Components/Order"
 import Contact from "./Components/Contact";
 import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
-import Cart from "./Components/Cart";
+import Cart from "./Components/Cart"
 
 function App() {
   return (
