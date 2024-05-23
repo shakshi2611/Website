@@ -18,8 +18,6 @@ import InfoIcon from "@mui/icons-material/Info";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import Feedback from "./Feedback";
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import { FaComment, FaHeart, FaPhone } from "react-icons/fa";
 
