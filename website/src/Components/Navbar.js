@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Profiler, useState } from "react";
 import Logo from "../Assets/Logo.svg";
-import { BsCart2, BsChatDots, BsHouse, BsInfoCircle, BsPerson } from "react-icons/bs";
+import {  BsCart2, BsChatDots, BsHouse, BsInfoCircle, BsPerson } from "react-icons/bs";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
@@ -16,10 +16,12 @@ import ListItemText from "@mui/material/ListItemText";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import CommentRoundedIcon from "@mui/icons-material/CommentRounded";
+import { FaHeart, FaShoppingCart } from 'react-icons/fa';
+import ShoppingCartIcon from "react-icons/fa";
 import PhoneRoundedIcon from "@mui/icons-material/PhoneRounded";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FeedbackIcon from '@mui/icons-material/Feedback';
-import { FaComment, FaHeart, FaPhone } from "react-icons/fa";
+import { FaComment, FaPhone } from "react-icons/fa";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -50,16 +52,16 @@ const Navbar = () => {
       icon: <PhoneRoundedIcon />,
       link: "/contact"
     },
-    // {
-    //   text: "Profile",
-    //   icon: <PermIdentityIcon/>,
-    //   link: "/Profile"
-    // },
     {
-      text: "Favourite Order",
-      icon: <FavoriteIcon />,
-      link: "/favourite"
+      text: "Cart",
+      icon: <FaShoppingCart />,
+      link: "/cart"
     },
+    // {
+    //   text: "Favourite Order",
+    //   icon: <FavoriteIcon />,
+    //   link: "/favourite"
+    // },
     {
       text: "Feedback",
       icon: <FeedbackIcon />,
@@ -86,12 +88,12 @@ const Navbar = () => {
         <Link to="/contact">
           <FaPhone className="navbar-contact-icon" />
         </Link>
-        {/* <Link to="/Profile">
-          <BsPerson className="navbar-cart-icon" />
-        </Link> */}
-        <Link to="/favourite">
-          <FaHeart className="navbar-favourite-icon" />
+        <Link to="/Cart">
+          <BsCart2 className="navbar-cart-icon" />
         </Link>
+        {/* <Link to="/favourite">
+          <FaHeart className="navbar-favourite-icon" />
+        </Link> */}
         <Link to="/feedback">
           <BsChatDots className="navbar-feedback-icon" />
         </Link>
@@ -110,7 +112,7 @@ const Navbar = () => {
           <List>
             {menuOptions.map((item) => (
               <ListItem key={item.text} disablePadding>
-                <ListItemButton>
+                <ListItemButton component={Link} to={item.link}>
                   <ListItemIcon>{item.icon}</ListItemIcon>
                   <ListItemText primary={item.text} />
                 </ListItemButton>

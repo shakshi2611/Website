@@ -1,17 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Home from "./Components/Home";
-import About from "./Components/About";
-import Testimonial from "./Components/Testimonial";
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+import Testimonial from "./Pages/Testimonial";
 import Profile from "./Components/Profile"
-import FavoriteOrder from "./Components/FavouriteOrder";
-import Feedback from "./Components/Feedback";
+import Feedback from "./Pages/Feedback";
 import Order from "./Components/Order"
-import Contact from "./Components/Contact";
+import Contact from "./Pages/Contact";
 import Footer from "./Components/Footer";
 import Navbar from "./Components/Navbar";
-import Cart from "./Components/Cart"
+import Cart from "./Pages/Cart"
 
 function App() {
   return (
@@ -24,7 +23,6 @@ function App() {
           <Route path="/testimonials" element={<Testimonial />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/Profile" element={<Profile />} />
-          <Route path="/favoriteOrder" element={<FavoriteOrder />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/cart" element={<Cart/>} />
